@@ -77,8 +77,6 @@ for filename in allFiles:
 
 
 
-
-
 # Merging all the data files to df
 
 df = pd.concat(list_data,ignore_index=True)
