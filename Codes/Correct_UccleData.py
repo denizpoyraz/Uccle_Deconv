@@ -30,7 +30,7 @@ for j in range(len(datelist)):
 
     dft[j]['TS'] = pd.to_datetime(dft[j].Time, unit='s')
 
-    dft[j] = dft[j].resample('3S', on='TS').mean().interpolate()
+    dft[j] = dft[j].resample('10S', on='TS').mean().interpolate()
     dft[j] = dft[j].reset_index()
 
     dft[j]['nTime'] = (dft[j]['TS'] - datetime.datetime(1970, 1, 1)).dt.total_seconds()
@@ -50,13 +50,18 @@ for j in range(len(datelist)):
     dft[j]['Ifast_deconv'] = Ifast_deconv
     dft[j]['Ifast_minib0_deconv'] = Ifastminib0_deconv
 
+    dft[j]['TboxK'] = dft[j]['Tbox'] + 273
+    dft[j]['pf'] = 100 / dft[j]['PF']
+    dft[j]['O3_fast_deconv'] = (dft[j]['Ifast_deconv'] * dft[j]['TboxK'] * 0.043085) / (dft[j]['pf'])
+    dft[j]['O3_fastminib0_deconv'] = (dft[j]['Ifast_minib0_deconv'] * dft[j]['TboxK'] * 0.043085) / (dft[j]['pf'])
+
 
 
     list_data.append(dft[j])
 
 df_dc = pd.concat(list_data, ignore_index=True)
 
-df_dc.to_csv("/home/poyraden/Analysis/Uccle_Deconvolution/Proccessed/Deconvoluted_UccleDataRaw_3secs.csv")
+df_dc.to_csv("/home/poyraden/Analysis/Uccle_Deconvolution/Proccessed/Deconvoluted_UccleDataRaw_10secs.csv")
 # df_dc.to_csv("/home/poyraden/Analysis/Uccle_Deconvolution/Proccessed/Deconvoluted_UccleDataRaw.csv")
 
 

@@ -23,7 +23,6 @@ dfmeta['Datenf'] = dfmeta['DateTime'].apply(lambda x: x.strftime('%Y%m%d'))
 columnString = "Time Pressure Temp Humidity Height O3 Tbox I V PumpCurrent Winddir Windv Lat Lon GPSHeightMSL Dewp AscRate"
 columnStr = columnString.split(" ")
 
-
 print(columnStr)
 
 list_data = []
@@ -64,7 +63,6 @@ for filename in allFiles:
             index = df.index,
             columns=columnMeta
         ))
-
 
 
 # df for all uccle data

@@ -6,12 +6,13 @@ from matplotlib import gridspec
 
 
 # df = pd.read_csv("/home/poyraden/Analysis/Uccle_Deconvolution/Proccessed/Deconvoluted_UccleDataRaw_original.csv", low_memory=False)
-df = pd.read_csv("/home/poyraden/Analysis/Uccle_Deconvolution/Proccessed/Deconvoluted_UccleDataRaw_3secs.csv", low_memory=False)
+df = pd.read_csv("/home/poyraden/Analysis/Uccle_Deconvolution/Proccessed/Deconvoluted_UccleDataRaw_10secs.csv", low_memory=False)
 
 
 df['km'] = round(df['Height'],2)/1000
 
 dfs = df[(df.Date > 20190701) & (df.Date < 20190901)]
+# dfs = df[df.Date == 20190726]
 dfnd = dfs.drop_duplicates('Date')
 datelist = np.array(dfnd['Date'])
 monthlist = np.array(dfnd['Month'])
@@ -69,8 +70,10 @@ for j in range(len(datelist)):
     fig, ax0 = plt.subplots()
 
     plt.xlabel(r'Current($\mu$A)')
-    # plt.ylabel('Altitude')
-    plt.ylabel('Pressure')
+    # plt.xlabel(r'PO3(mPa)')
+
+    plt.ylabel('Altitude')
+    # plt.ylabel('Pressure')
 
     # ax0.set_yscale('log')
     # plt.xlim(0, 5)
@@ -95,19 +98,30 @@ for j in range(len(datelist)):
     # plt.plot(dfd.Ifast_deconv.rolling(window=9, center=True).mean(), dfd.Pressure, label='Descent (Ifast)  corrected')
     # plt.plot(dfd.I_slow_conv.rolling(window=1, center=True).mean(), dfd.Pressure, label='Descent I slow conv ')
 
-    plt.plot(dfd.Time, dfd.I, label='Descent ')
-    plt.plot(dfa.Time, dfa.I, label='Ascent ')
+    # plt.plot(dfd.Time, dfd.I, label='Descent ')
+    # plt.plot(dfa.Time, dfa.I, label='Ascent ')
+    #
 
-    plt.plot(dfd.Time, dfd.I, label='Descent ')
-    plt.plot(dfa.Time, dfa.I, label='Ascent ')
+
+    # plt.plot(dfd.I, dfd.Time, label='Descent ')
+    # plt.plot(dfa.Time, dfa.I, label='Ascent ')
+
+    # plt.plot(dfa.O3_fast_deconv.rolling(window = 9).mean(), dfa.Height/1000,  label='Ascent corrected')
+    # plt.plot(dfd.O3_fast_deconv.rolling(window = 9).mean(), dfd.Height/1000, label='Descent corrected ')
+
+    plt.plot(dfa.Ifast_deconv.rolling(window = 1).mean(), dfa.Height/1000,  label='Ascent corrected')
+    plt.plot(dfd.Ifast_deconv.rolling(window = 1).mean(), dfd.Height/1000, label='Descent corrected ')
+
+    # plt.plot(dfa.O3, dfa.Height/1000,  label='Ascent ')
+    # plt.plot(dfd.O3, dfd.Height/1000, label='Descent  ')
+
+    # plt.plot( dfa.I, dfa.Height/1000, label='Ascent ')
+    # plt.plot(dfd.I,dfd.Height/1000, label='Descent ')
 
     # plt.plot(dfa.AscRate, dfa.Height, label='Asscent rate')
     #
     # plt.plot(dfd.Windv, dfd.Height, label='Descent Windv')
     # plt.plot(dfa.Windv, dfa.Height, label='Asscent Windv')
-
-
-
 
 
 
@@ -140,10 +154,10 @@ for j in range(len(datelist)):
     # plt.plot(dfd.I_fast_sm20, dfd.Height, label='Descent Ifast', linewidth = 1)
     # plt.plot(dfd.Ifast_minib0_sm20, dfd.Height, label='Descent Ifast - iB0', linewidth = 1)
     # plt.plot(dfd.I_slow_conv_sm20, dfd.Height, label='Descent Islow', linewidth = 1)
-    pre = '3seconds_sm9_Data_AD_'
-    # plt.savefig('/home/poyraden/Analysis/Uccle_Deconvolution/Plots/PerDay/' + pre + ptitle + '.eps')
-    # plt.savefig('/home/poyraden/Analysis/Uccle_Deconvolution/Plots/PerDay/' + pre + ptitle + '.png')
+    pre = '10seconds_Current_Corrected'
+    plt.savefig('/home/poyraden/Analysis/Uccle_Deconvolution/Plots/PerDay/' + pre + ptitle + '.eps')
+    plt.savefig('/home/poyraden/Analysis/Uccle_Deconvolution/Plots/PerDay/' + pre + ptitle + '.png')
 
 
-    plt.show()
+    # plt.show()
 
